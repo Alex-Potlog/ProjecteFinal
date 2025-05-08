@@ -28,19 +28,23 @@ public class MyChat extends JFrame {
     }
 
     /**
-     * Crea la secció d'inici de sessió i mira que l'usuari no es trobi ja registrat.
-     */
-    public void login(){
-        // TODO Auto-generated method block
-    }
-
-    /**
      * Inicialitza els mètodes de creació de tot l'apartat gràfic
      */
 
     public void initialize(){
+        login();
         creacioMenu();
         creacioPanells();
+    }
+
+
+    /**
+     * Crea la secció d'inici de sessió i mira que l'usuari no es trobi ja registrat.
+     */
+    public void login(){
+        JDialog paginaLogin = new JDialog();
+        paginaLogin.setSize(200, 250);
+        paginaLogin.setVisible(true);
     }
 
     /**
