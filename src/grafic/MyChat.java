@@ -48,6 +48,8 @@ public class MyChat extends JFrame {
      */
 
     public void creacioMenu(){
+        JPanel panelSuperior = new JPanel();
+        contentPane.add(panelSuperior, BorderLayout.CENTER);
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
@@ -66,16 +68,21 @@ public class MyChat extends JFrame {
         JPanel panelSuperior = new JPanel();
         contentPane.add(panelSuperior, BorderLayout.CENTER);
 
+
         JPanel panelInputs = new JPanel();
         contentPane.add(panelInputs, BorderLayout.SOUTH);
         panelInputs.setLayout(new BorderLayout(0, 0));
 
         txtInput = new JTextField("Entra el teu missatge...");
         //afagir que quan li fan focus treu el text, quan li treuen els focus torna a ficar el text
+
+        txtInput = new JTextField();
+        txtInput.setText("Entra el teu missatge...");
+
+
         panelInputs.add(txtInput);
 
         JButton botoEnvia = new JButton("Envia");
         panelInputs.add(botoEnvia, BorderLayout.EAST);
     }
-
 }
