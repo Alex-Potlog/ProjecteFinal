@@ -41,16 +41,8 @@ public class MyChat extends JFrame {
      * Crea la secció d'inici de sessió i mira que l'usuari no es trobi ja registrat.
      */
     public void login(){
-        JDialog paginaLogin = new JDialog();
-        paginaLogin.setSize(250, 200);
-        paginaLogin.setVisible(true);
-        paginaLogin.setLayout(new BorderLayout(10,10));
-        JLabel advertenciaNom = new JLabel("Insereix el nom d'usuari:");
-        paginaLogin.add(advertenciaNom, BorderLayout.CENTER);
-        JTextField nomUsuari = new JTextField();
-        paginaLogin.add(nomUsuari, BorderLayout.CENTER);
-        JButton intentEntrar = new JButton("Envia");
-        paginaLogin.add(intentEntrar, BorderLayout.EAST);
+        MyLogin login = new MyLogin();
+        login.setVisible(true);
         initialize();
     }
 
