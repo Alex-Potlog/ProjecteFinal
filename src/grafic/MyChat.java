@@ -19,7 +19,6 @@ public class MyChat extends JFrame {
      */
     public MyChat() throws IOException {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Chat");
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -44,7 +43,6 @@ public class MyChat extends JFrame {
     public void login(){
         MyLogin login = new MyLogin();
         login.setVisible(true);
-        //fes que
         initialize();
     }
 
