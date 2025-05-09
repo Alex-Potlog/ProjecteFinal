@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import grafic.MyLogin;
 import javax.swing.*;

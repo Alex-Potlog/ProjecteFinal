@@ -7,9 +7,9 @@ public class ConexioBD {
 
     /**
      * Crea una connexió a la base de dades.
-     * @return la connexió a la base de dades
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * @return Retorna la connexió a la base de dades
+     * @throws SQLException Si alguna sentència és incorrecta
+     * @throws ClassNotFoundException Si no es troba el driver
      */
 
     public static Connection obtener() throws SQLException, ClassNotFoundException {
@@ -24,11 +24,21 @@ public class ConexioBD {
         return conn;
     }
 
+    /**
+     * Tanca la connexió.
+     * @throws SQLException Llençat des de Connexion.close
+     */
+
     public static void cerrar() throws SQLException {
         if (conn != null) {
             conn.close();
         }
     }
+
+    /**
+     * Retorna la conexió.
+     * @return Retorna la conexió.
+     */
 
     public static Connection getConn() {
         return conn;

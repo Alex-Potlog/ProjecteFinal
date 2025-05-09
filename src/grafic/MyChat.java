@@ -3,22 +3,29 @@ package grafic;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class MyChat extends JFrame {
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField txtInput;
+    private String username;
+    private final String INPUTTEXT = "Entra el teu missatge...";
+    private boolean llistaUsuarisVisibles = true;
+    private JPanel panelUsuaris;
 
     /**
-     * Create the frame.
+     * Crea el frame.
      */
-    public MyChat()  {
+    public MyChat(String username)  {
+        this.username = username;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Chat");
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -32,8 +39,45 @@ public class MyChat extends JFrame {
      */
 
     public void initialize(){
-        creacioMenu();
         creacioPanells();
+        creacioMenu();
+    }
+
+    /**
+     * Crea els elements visuals de les dues parts de la pantalla
+     */
+
+    public void creacioPanells(){
+        JPanel panelSuperior = new JPanel();
+        contentPane.add(panelSuperior, BorderLayout.CENTER);
+        panelSuperior.setLayout(new BorderLayout(0, 0));
+
+        panelUsuaris = new JPanel();
+        panelSuperior.add(panelUsuaris, BorderLayout.EAST);
+
+        panelUsuaris.setLayout(new BoxLayout(panelUsuaris, BoxLayout.Y_AXIS));
+
+        JPanel panelInputs = new JPanel();
+        contentPane.add(panelInputs, BorderLayout.SOUTH);
+        panelInputs.setLayout(new BorderLayout(0, 0));
+
+        txtInput = new JTextField("Entra el teu missatge...");
+        txtInput.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                txtInput.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                txtInput.setText(INPUTTEXT);
+            }
+        });
+
+        panelInputs.add(txtInput);
+
+        JButton botoEnvia = new JButton("Envia");
+        panelInputs.add(botoEnvia, BorderLayout.EAST);
     }
 
     /**
@@ -48,27 +92,22 @@ public class MyChat extends JFrame {
         menuBar.add(mnMenu);
 
         JMenuItem usuarisVisibles = new JMenuItem("Activa/desactiva vista d'usuaris");
+        usuarisVisibles.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                llistaUsuarisVisibles = !llistaUsuarisVisibles;
+                panelUsuaris.setVisible(llistaUsuarisVisibles);
+            }
+        });
         mnMenu.add(usuarisVisibles);
+
+        JMenuItem sortir = new JMenuItem("Sortir");
+        sortir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        mnMenu.add(sortir);
     }
-
-    /**
-     * Crea els elements visuals de les dues parts de la pantalla
-     */
-
-    public void creacioPanells(){
-        JPanel panelSuperior = new JPanel();
-        contentPane.add(panelSuperior, BorderLayout.CENTER);
-
-        JPanel panelInputs = new JPanel();
-        contentPane.add(panelInputs, BorderLayout.SOUTH);
-        panelInputs.setLayout(new BorderLayout(0, 0));
-
-        txtInput = new JTextField("Entra el teu missatge...");
-        //afagir que quan li fan focus treu el text, quan li treuen els focus torna a ficar el text
-        panelInputs.add(txtInput);
-
-        JButton botoEnvia = new JButton("Envia");
-        panelInputs.add(botoEnvia, BorderLayout.EAST);
-    }
-
 }
