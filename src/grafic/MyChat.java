@@ -8,6 +8,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.sql.SQLException;
+import java.util.HashSet;
+
+import static sql.ConexioBD.*;
+import static sql.SQLManager.*;
 
 public class MyChat extends JFrame {
 
@@ -47,14 +52,14 @@ public class MyChat extends JFrame {
      * Crea els elements visuals de les dues parts de la pantalla
      */
 
-    public void creacioPanells(){
+    public void creacioPanells() throws SQLException, ClassNotFoundException {
         JPanel panelSuperior = new JPanel();
         contentPane.add(panelSuperior, BorderLayout.CENTER);
         panelSuperior.setLayout(new BorderLayout(0, 0));
 
         panelUsuaris = new JPanel();
+        mostraUsuaris(getUsuaris(obtener()));
         panelSuperior.add(panelUsuaris, BorderLayout.EAST);
-
         panelUsuaris.setLayout(new BoxLayout(panelUsuaris, BoxLayout.Y_AXIS));
 
         JPanel panelInputs = new JPanel();
@@ -109,5 +114,15 @@ public class MyChat extends JFrame {
             }
         });
         mnMenu.add(sortir);
+    }
+
+    /**
+     *
+     */
+
+    public void mostraUsuaris(HashSet<String> usuaris){
+        for (int i = 0; i < usuaris.size(); i++) {
+
+        }
     }
 }
