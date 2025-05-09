@@ -24,7 +24,7 @@ public class MyChat extends JFrame {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(new BorderLayout(10, 10));
-        initialize();
+        login();
     }
 
     /**
@@ -32,7 +32,6 @@ public class MyChat extends JFrame {
      */
 
     public void initialize(){
-        login();
         creacioMenu();
         creacioPanells();
     }
@@ -43,8 +42,16 @@ public class MyChat extends JFrame {
      */
     public void login(){
         JDialog paginaLogin = new JDialog();
-        paginaLogin.setSize(200, 250);
+        paginaLogin.setSize(250, 200);
         paginaLogin.setVisible(true);
+        paginaLogin.setLayout(new BorderLayout(10,10));
+        JLabel advertenciaNom = new JLabel("Insereix el nom d'usuari:");
+        paginaLogin.add(advertenciaNom, BorderLayout.CENTER);
+        JTextField nomUsuari = new JTextField();
+        paginaLogin.add(nomUsuari, BorderLayout.CENTER);
+        JButton intentEntrar = new JButton("Envia");
+        paginaLogin.add(intentEntrar, BorderLayout.EAST);
+        initialize();
     }
 
     /**
