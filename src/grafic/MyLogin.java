@@ -3,14 +3,15 @@ package grafic;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+
+
+import static sql.ConexioBD.obtener;
+import static sql.SQLManager.*;
 
 public class MyLogin extends JDialog {
 
@@ -50,7 +51,18 @@ public class MyLogin extends JDialog {
         JButton okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                entraUsername();
+                username = textField.getText();
+                boolean valid = true;
+                try {
+                    surt(obtener());
+                    entraUsername();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(contentPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    valid = false;
+                }
+                setVisible(false);
+                MyChat chat = new MyChat();
+                chat.setVisible(true);
             }
         });
         okButton.setActionCommand("OK");
@@ -65,6 +77,10 @@ public class MyLogin extends JDialog {
 
     public void entraUsername() {
         boolean verificat = true;
-
+        try {
+            entra(username, obtener());
+        } catch (SQLException | ClassNotFoundException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

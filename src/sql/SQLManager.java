@@ -12,8 +12,8 @@ public class SQLManager {
         registrar.execute(conectaUsuari);
     }
 
-    public static void surt (String username, Connection con) throws SQLException {
-        String desconectaUsuari = "CALL disconnect('" + username + "');";
+    public static void surt (Connection con) throws SQLException {
+        String desconectaUsuari = "CALL disconnect();";
         Statement registrar = con.createStatement();
         registrar.execute(desconectaUsuari);
     }
