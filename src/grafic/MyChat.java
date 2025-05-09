@@ -17,7 +17,7 @@ public class MyChat extends JFrame {
     /**
      * Create the frame.
      */
-    public MyChat() throws IOException {
+    public MyChat() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 450, 300);
         contentPane = new JPanel();
