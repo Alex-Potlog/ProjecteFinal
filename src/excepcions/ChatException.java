@@ -4,8 +4,8 @@ public class ChatException extends RuntimeException {
     private static final long serialVersionUID = 1L;
     private String codi;
 
-  public ChatException(String codi) {
-    this.codi = codi;
+  public ChatException(String message) {
+    super(message);
   }
 
   public ChatException(String message, String codi) {
