@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 public abstract class SQLManager {
 
@@ -52,13 +53,14 @@ public abstract class SQLManager {
 
     /**
      * Retorna la llista d'usuaris.
+     *
      * @param con conexió a la base de dades
      * @return retorna un hashset d'usuaris
      * @throws SQLException si alguna sentència és incorrecta
      */
 
-    public static HashSet<String> getUsuaris(Connection con) throws SQLException {
-        HashSet<String> llistaUsuaris = new HashSet<>();
+    public static TreeSet<String> getUsuaris(Connection con) throws SQLException {
+        TreeSet<String> llistaUsuaris = new TreeSet<>();
         String missatgePrompt = "CALL getConnectedUsers();";
         Statement registrar = con.createStatement();
         ResultSet resultat = registrar.getResultSet();

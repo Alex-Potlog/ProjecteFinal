@@ -74,12 +74,8 @@ public class MyLogin extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 if (username.isEmpty()) System.exit(0);
                 setVisible(false);
-                try {
-                    MyChat chat = new MyChat(username);
-                    chat.setVisible(true);
-                } catch (SQLException | ClassNotFoundException ex) {
-                    JOptionPane.showMessageDialog(contentPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                MyChat chat = new MyChat(username);
+                chat.setVisible(true);
             }
         });
         buttonPane.add(cancelButton);
@@ -102,12 +98,9 @@ public class MyLogin extends JDialog {
         if (valid) {
             setVisible(false);
             MyChat chat = null;
-            try {
-                chat = new MyChat(username);
-                chat.setVisible(true);
-            } catch (SQLException | ClassNotFoundException ex) {
-                JOptionPane.showMessageDialog(contentPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
+
+            chat = new MyChat(username);
+            chat.setVisible(true);
         }
     }
 }

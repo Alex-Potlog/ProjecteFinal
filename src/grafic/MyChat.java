@@ -8,8 +8,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.TreeSet;
 
 import static sql.ConexioBD.*;
 import static sql.SQLManager.*;
@@ -27,7 +29,7 @@ public class MyChat extends JFrame {
     /**
      * Crea el frame.
      */
-    public MyChat(String username) throws SQLException, ClassNotFoundException {
+    public MyChat(String username){
         this.username = username;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Chat");
@@ -43,13 +45,19 @@ public class MyChat extends JFrame {
      * Inicialitza els mètodes de creació de tot l'apartat gràfic
      */
 
-    public void initialize() throws SQLException, ClassNotFoundException {
-        creacioPanells();
-        creacioMenu();
+    public void initialize()  {
+        try {
+            creacioPanells();
+            creacioMenu();
+        } catch (SQLException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
-     * Crea els elements visuals de les dues parts de la pantalla
+     * Crea els panells.
+     * @throws SQLException Llençat des de SQLManager
+     * @throws ClassNotFoundException Llençat des de SQLManager
      */
 
     public void creacioPanells() throws SQLException, ClassNotFoundException {
@@ -84,6 +92,16 @@ public class MyChat extends JFrame {
         panelInputs.add(txtInput);
 
         JButton botoEnvia = new JButton("Envia");
+        botoEnvia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    enviaMissatge(obtener());
+                } catch (SQLException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
         panelInputs.add(botoEnvia, BorderLayout.EAST);
     }
 
@@ -111,28 +129,41 @@ public class MyChat extends JFrame {
                 }
             }
         });
+        usuarisVisibles.setMnemonic('A');
         mnMenu.add(usuarisVisibles);
 
         JMenuItem sortir = new JMenuItem("Sortir");
         sortir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    surt(obtener());
+                } catch (SQLException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
                 System.exit(0);
             }
         });
+        sortir.setMnemonic('Q');
+
         mnMenu.add(sortir);
     }
 
     /**
-     * Mostra els usuaris al panell de logins
+     * Mostra els usuaris al panell d'usuaris loguejats
      */
 
-    public void mostraUsuaris(HashSet<String> usuaris){
+    public void mostraUsuaris(TreeSet<String> usuaris){
         for (String text : usuaris) {
             JLabel label = new JLabel(text);
             label.setForeground(Color.BLUE);
             label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             panelUsuaris.add(label); // Agregar label al panel
         }
+    }
+
+    public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
+        String missatge = txtInput.getText();
+        envia(missatge, con);
     }
 }
