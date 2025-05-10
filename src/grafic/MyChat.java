@@ -27,7 +27,7 @@ public class MyChat extends JFrame {
     /**
      * Crea el frame.
      */
-    public MyChat(String username)  {
+    public MyChat(String username) throws SQLException, ClassNotFoundException {
         this.username = username;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Chat");
@@ -43,7 +43,7 @@ public class MyChat extends JFrame {
      * Inicialitza els mètodes de creació de tot l'apartat gràfic
      */
 
-    public void initialize(){
+    public void initialize() throws SQLException, ClassNotFoundException {
         creacioPanells();
         creacioMenu();
     }
@@ -58,6 +58,8 @@ public class MyChat extends JFrame {
         panelSuperior.setLayout(new BorderLayout(0, 0));
 
         panelUsuaris = new JPanel();
+        JLabel prova = new JLabel("Exemple");
+        panelUsuaris.add(prova);
         mostraUsuaris(getUsuaris(obtener()));
         panelSuperior.add(panelUsuaris, BorderLayout.EAST);
         panelUsuaris.setLayout(new BoxLayout(panelUsuaris, BoxLayout.Y_AXIS));
@@ -102,6 +104,11 @@ public class MyChat extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 llistaUsuarisVisibles = !llistaUsuarisVisibles;
                 panelUsuaris.setVisible(llistaUsuarisVisibles);
+                try {
+                    mostraUsuaris(getUsuaris(obtener()));
+                } catch (SQLException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
         mnMenu.add(usuarisVisibles);
@@ -117,12 +124,15 @@ public class MyChat extends JFrame {
     }
 
     /**
-     *
+     * Mostra els usuaris al panell de logins
      */
 
     public void mostraUsuaris(HashSet<String> usuaris){
-        for (int i = 0; i < usuaris.size(); i++) {
-
+        for (String text : usuaris) {
+            JLabel label = new JLabel(text);
+            label.setForeground(Color.BLUE);
+            label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            panelUsuaris.add(label); // Agregar label al panel
         }
     }
 }

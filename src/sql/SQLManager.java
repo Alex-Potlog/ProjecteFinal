@@ -65,10 +65,12 @@ public abstract class SQLManager {
 
         if (resultat !=null){
             while (resultat.next()){
-                llistaUsuaris.add(resultat.getString(""));
+                llistaUsuaris.add(resultat.getString("nick"));
             }
+            resultat.close();
         }
 
+        registrar.close();
         return llistaUsuaris;
     }
 }
