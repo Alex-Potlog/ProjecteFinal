@@ -82,11 +82,6 @@ public class MyChat extends JFrame {
             public void focusGained(FocusEvent e) {
                 txtInput.setText("");
             }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                txtInput.setText(INPUTTEXT);
-            }
         });
 
         panelInputs.add(txtInput);
@@ -97,6 +92,7 @@ public class MyChat extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     enviaMissatge(obtener());
+                    txtInput.setText(INPUTTEXT);
                 } catch (SQLException | ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }

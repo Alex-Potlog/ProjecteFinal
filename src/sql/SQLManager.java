@@ -7,9 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
+import java.util.Observer;
 import java.util.TreeSet;
 
-public abstract class SQLManager {
+public abstract class SQLManager implements Observer {
 
     /**
      * Fa el login dels usuaris a la base de dades.
@@ -53,7 +54,6 @@ public abstract class SQLManager {
 
     /**
      * Retorna la llista d'usuaris.
-     *
      * @param con conexió a la base de dades
      * @return retorna un hashset d'usuaris
      * @throws SQLException si alguna sentència és incorrecta
