@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Observer;
 import java.util.TreeSet;
 
-public abstract class SQLManager implements Observer {
+public abstract class SQLManager {
 
     /**
      * Fa el login dels usuaris a la base de dades.
