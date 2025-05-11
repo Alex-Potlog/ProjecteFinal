@@ -1,0 +1,34 @@
+package magatzematge;
+
+public class Missatge {
+    private String message;
+    private String nick;
+    private String data;
+
+    public Missatge(String message, String nick, String data) {
+        this.message = message;
+        this.nick = nick;
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "Missatge{" +
+                "message='" + message + '\'' +
+                ", nick='" + nick + '\'' +
+                ", data='" + data + '\'' +
+                '}';
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public String getNick() {
+        return nick;
+    }
+
+    public String getData() {
+        return data;
+    }
+}

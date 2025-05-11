@@ -1,5 +1,7 @@
 package grafic;
 
+import magatzematge.Usuari;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -149,9 +151,9 @@ public class MyChat extends JFrame {
      * Mostra els usuaris al panell d'usuaris loguejats
      */
 
-    public void mostraUsuaris(TreeSet<String> usuaris){
-        for (String text : usuaris) {
-            JLabel label = new JLabel(text);
+    public void mostraUsuaris(TreeSet<Usuari> usuaris){
+        for (Usuari text : usuaris) {
+            JLabel label = new JLabel(text.toString());
             label.setForeground(Color.BLUE);
             label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
             panelUsuaris.add(label); // Agregar label al panel

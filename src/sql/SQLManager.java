@@ -1,11 +1,14 @@
 package sql;
 
 import excepcions.ChatException;
+import magatzematge.Missatge;
+import magatzematge.Usuari;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Observer;
 import java.util.TreeSet;
@@ -59,20 +62,37 @@ public abstract class SQLManager {
      * @throws SQLException si alguna sentència és incorrecta
      */
 
-    public static TreeSet<String> getUsuaris(Connection con) throws SQLException {
-        TreeSet<String> llistaUsuaris = new TreeSet<>();
+    public static TreeSet<Usuari> getUsuaris(Connection con) throws SQLException {
+        TreeSet<Usuari> llistaUsuaris = new TreeSet<>();
         String missatgePrompt = "CALL getConnectedUsers();";
         Statement registrar = con.createStatement();
+        registrar.execute(missatgePrompt);
         ResultSet resultat = registrar.getResultSet();
 
         if (resultat !=null){
             while (resultat.next()){
-                llistaUsuaris.add(resultat.getString("nick"));
+                llistaUsuaris.add(new Usuari(resultat.getString("nick"), resultat.getString("date_con")));
             }
             resultat.close();
         }
 
         registrar.close();
         return llistaUsuaris;
+    }
+
+    public static ArrayList<Missatge> getMessage(Connection con) throws SQLException {
+        ArrayList<Missatge> missatges = new ArrayList<>();
+        String missatgePrompt = "CALL getMessages()";
+        Statement registrar = con.createStatement();
+        registrar.execute(missatgePrompt);
+        ResultSet resultat = registrar.getResultSet();
+
+        if (resultat != null){
+            while (resultat.next()){
+                missatges.add(new Missatge(resultat.getString("message"), resultat.getString("nick"), resultat.getString("ts")));
+            }
+        }
+
+        return missatges;
     }
 }
