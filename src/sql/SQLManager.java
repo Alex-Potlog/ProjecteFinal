@@ -80,16 +80,9 @@ public abstract class SQLManager {
         return llistaUsuaris;
     }
 
-    /**
-     * Retorna els missatges enviats per xat.
-     * @param con rep la connexió a la base de dades
-     * @return llista de missatges
-     * @throws SQLException si es fa una query malament
-     */
-
     public static ArrayList<Missatge> getMessage(Connection con) throws SQLException {
         ArrayList<Missatge> missatges = new ArrayList<>();
-        String missatgePrompt = "CALL getMessages();";
+        String missatgePrompt = "CALL getMessages()";
         Statement registrar = con.createStatement();
         registrar.execute(missatgePrompt);
         ResultSet resultat = registrar.getResultSet();
