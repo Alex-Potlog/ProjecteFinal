@@ -1,6 +1,7 @@
 package sql;
 
 import excepcions.ChatException;
+import magatzematge.Usuari;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -59,15 +60,15 @@ public abstract class SQLManager {
      * @throws SQLException si alguna sentència és incorrecta
      */
 
-    public static TreeSet<String> getUsuaris(Connection con) throws SQLException {
-        TreeSet<String> llistaUsuaris = new TreeSet<>();
+    public static TreeSet<Usuari> getUsuaris(Connection con) throws SQLException {
+        TreeSet<Usuari> llistaUsuaris = new TreeSet<>();
         String missatgePrompt = "CALL getConnectedUsers();";
         Statement registrar = con.createStatement();
         ResultSet resultat = registrar.getResultSet();
 
         if (resultat !=null){
             while (resultat.next()){
-                llistaUsuaris.add(resultat.getString("nick"));
+                llistaUsuaris.add(new Usuari(resultat.getString("data_con"), resultat.getString("nick")));
             }
             resultat.close();
         }
