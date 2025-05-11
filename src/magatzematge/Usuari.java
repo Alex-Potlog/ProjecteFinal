@@ -12,10 +12,7 @@ public class Usuari implements Comparable {
 
     @Override
     public String toString() {
-        return "Usuari{" +
-                "nom='" + nom + '\'' +
-                ", data='" + data + '\'' +
-                '}';
+        return  nom + '\n' + data;
     }
 
     @Override

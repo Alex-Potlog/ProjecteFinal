@@ -13,11 +13,9 @@ public class Missatge {
 
     @Override
     public String toString() {
-        return "Missatge{" +
-                "message='" + message + '\'' +
-                ", nick='" + nick + '\'' +
-                ", data='" + data + '\'' +
-                '}';
+        return nick + '\n' +
+                message + '\n' +
+                data ;
     }
 
     public String getMessage() {

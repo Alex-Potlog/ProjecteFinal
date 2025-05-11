@@ -1,14 +1,14 @@
 package sql;
 
 import excepcions.ChatException;
+import magatzematge.Missatge;
 import magatzematge.Usuari;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashSet;
-import java.util.Observer;
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 public abstract class SQLManager {
@@ -61,7 +61,8 @@ public abstract class SQLManager {
      */
 
     public static TreeSet<Usuari> getUsuaris(Connection con) throws SQLException {
-        TreeSet<Usuari> llistaUsuaris = new TreeSet<>();
+        TreeSet<Usuari> llistaUsuaris = new TreeSet<>(); //he escollit aquesta col·lecció perquè necessito accedir de forma
+        //ràpida als usuaris, però els puc comparar entre ells i no pot haver-hi mai més d'un mateix usuari conectat al mateix temps
         String missatgePrompt = "CALL getConnectedUsers();";
         Statement registrar = con.createStatement();
         ResultSet resultat = registrar.getResultSet();
@@ -75,5 +76,30 @@ public abstract class SQLManager {
 
         registrar.close();
         return llistaUsuaris;
+    }
+
+
+    /**
+     * Retorna els missatges enviats per xat.
+     * @param con rep la connexió a la base de dades
+     * @return llista de missatges
+     * @throws SQLException si es fa una query malament
+     */
+
+    public static ArrayList<Missatge> getMessage(Connection con) throws SQLException {
+        ArrayList<Missatge> missatges = new ArrayList<>(); //he escollit aquesta col·lecció perquè poden repetir-se els missatges
+        // i no compleixen cap mena d'estructura adicional
+        String missatgePrompt = "CALL getMessages();";
+        Statement registrar = con.createStatement();
+        registrar.execute(missatgePrompt);
+        ResultSet resultat = registrar.getResultSet();
+
+        if (resultat != null){
+            while (resultat.next()){
+                missatges.add(new Missatge(resultat.getString("message"), resultat.getString("nick"), resultat.getString("ts")));
+            }
+        }
+
+        return missatges;
     }
 }
