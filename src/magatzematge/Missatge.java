@@ -13,9 +13,7 @@ public class Missatge {
 
     @Override
     public String toString() {
-        return nick + '\n' +
-                message + '\n' +
-                data ;
+        return nick + '\n' + message + '\n' + data ;
     }
 
     public String getMessage() {

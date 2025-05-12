@@ -9,16 +9,13 @@ public class Usuari implements Comparable {
         this.nom = nom;
     }
 
-
     @Override
     public String toString() {
         return  nom + '\n' + data;
     }
 
     @Override
-    public int compareTo(Object o) {
-        return nom.compareTo((String) o);
-    }
+    public int compareTo(Object o) {return data.compareTo((String) o);}
 
     public String getNom() {
         return nom;

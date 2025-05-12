@@ -151,13 +151,21 @@ public class MyChat extends JFrame {
      * Mostra els usuaris al panell d'usuaris loguejats
      */
 
-    public void mostraUsuaris(TreeSet<Usuari> usuaris){
+    public void mostraUsuaris(TreeSet<Usuari> usuaris) {
+        // Primero limpiamos el panel para evitar duplicados
+        panelUsuaris.removeAll();
+
+        // Añadimos los usuarios actuales
         for (Usuari text : usuaris) {
             JLabel label = new JLabel(text.toString());
             label.setForeground(Color.BLUE);
             label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            panelUsuaris.add(label); // Agregar label al panel
+            panelUsuaris.add(label);
         }
+
+        // Actualizamos la visualización del panel
+        panelUsuaris.revalidate();
+        panelUsuaris.repaint();
     }
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
