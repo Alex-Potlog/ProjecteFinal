@@ -24,7 +24,10 @@ public class MyChat extends JFrame {
     private String username;
     private final String INPUTTEXT = "Entra el teu missatge...";
     private boolean llistaUsuarisVisibles = true;
-    private JPanel panelUsuaris;
+    private JScrollPane panelUsuaris;
+    private JPanel subPanelUsuaris;
+    private JScrollPane panelXat;
+    private JPanel subPanelXat;
 
     /**
      * Crea el frame.
@@ -33,7 +36,7 @@ public class MyChat extends JFrame {
         this.username = username;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Chat");
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 1000, 650);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -65,13 +68,15 @@ public class MyChat extends JFrame {
         contentPane.add(panelSuperior, BorderLayout.CENTER);
         panelSuperior.setLayout(new BorderLayout(0, 0));
 
-        panelUsuaris = new JPanel();
+        panelUsuaris = new JScrollPane();
+        panelUsuaris.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        subPanelUsuaris = new JPanel();
+        subPanelUsuaris.setLayout(new BoxLayout(subPanelUsuaris, BoxLayout.Y_AXIS));
         mostraUsuaris(getUsuaris(obtener()));
         panelSuperior.add(panelUsuaris, BorderLayout.EAST);
-        JPanel panelXat = new JPanel();
+        panelXat = new JScrollPane();
+        panelXat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         panelSuperior.add(panelXat, BorderLayout.CENTER);
-        panelUsuaris.setLayout(new BoxLayout(panelUsuaris, BoxLayout.Y_AXIS));
-
         JPanel panelInputs = new JPanel();
         contentPane.add(panelInputs, BorderLayout.SOUTH);
         panelInputs.setLayout(new BorderLayout(0, 0));
@@ -159,7 +164,7 @@ public class MyChat extends JFrame {
      */
 
     public void mostraUsuaris(TreeSet<Usuari> usuaris) {
-        panelUsuaris.removeAll();
+        subPanelUsuaris.removeAll();
 
         for (Usuari usuari : usuaris) {
             JTextArea area = new JTextArea(2, 15);
@@ -168,19 +173,18 @@ public class MyChat extends JFrame {
             area.setFocusable(false);
             area.setOpaque(false);
             area.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
-            area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 32));
-            area.setPreferredSize(new Dimension(150, 32)); // ancho y alto fijo
-            panelUsuaris.add(area);
+            area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 37));
+            area.setPreferredSize(new Dimension(150, 37)); // ancho y alto fijo
+            subPanelUsuaris.add(area);
         }
 
-        panelUsuaris.revalidate();
-        panelUsuaris.repaint();
+        subPanelUsuaris.revalidate();
+        subPanelUsuaris.repaint();
+        panelUsuaris.setViewportView(subPanelUsuaris);
     }
 
     public void mostraMissatges(ArrayList<Missatge> missatges){
-        panelUsuaris.removeAll();
-
-
+        panelXat.removeAll();
     }
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
