@@ -11,11 +11,15 @@ public class Usuari implements Comparable {
 
     @Override
     public String toString() {
-        return  nom + '\n' + data;
+        if (data != null) return  nom + '\n' + data;
+        return nom;
     }
 
     @Override
-    public int compareTo(Object o) {return data.compareTo((String) o);}
+    public int compareTo(Object o) {
+        if (o instanceof Usuari) return data.compareTo(o.toString());
+        return 0;
+    }
 
     public String getNom() {
         return nom;

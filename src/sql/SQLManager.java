@@ -4,10 +4,7 @@ import excepcions.ChatException;
 import magatzematge.Missatge;
 import magatzematge.Usuari;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -61,19 +58,18 @@ public abstract class SQLManager {
      */
 
     public static TreeSet<Usuari> getUsuaris(Connection con) throws SQLException {
-        TreeSet<Usuari> llistaUsuaris = new TreeSet<>(); //he escollit aquesta col·lecció perquè necessito accedir de forma
-        //ràpida als usuaris, però els puc comparar entre ells i no pot haver-hi mai més d'un mateix usuari conectat al mateix temps
+        TreeSet<Usuari> llistaUsuaris = new TreeSet<>();
         String missatgePrompt = "CALL getConnectedUsers();";
         Statement registrar = con.createStatement();
+        registrar.execute(missatgePrompt);
         ResultSet resultat = registrar.getResultSet();
 
-        if (resultat !=null){
-            while (resultat.next()){
-                llistaUsuaris.add(new Usuari(resultat.getString("data_con"), resultat.getString("nick")));
+        if (resultat != null) {
+            while (resultat.next()) {
+                llistaUsuaris.add(new Usuari(resultat.getString("date_con"), resultat.getString("nick")));
             }
             resultat.close();
         }
-
         registrar.close();
         return llistaUsuaris;
     }

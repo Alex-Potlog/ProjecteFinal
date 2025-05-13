@@ -1,18 +1,16 @@
 package grafic;
 
+import magatzematge.Missatge;
 import magatzematge.Usuari;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 import static sql.ConexioBD.*;
@@ -68,10 +66,10 @@ public class MyChat extends JFrame {
         panelSuperior.setLayout(new BorderLayout(0, 0));
 
         panelUsuaris = new JPanel();
-        JLabel prova = new JLabel("Exemple");
-        panelUsuaris.add(prova);
         mostraUsuaris(getUsuaris(obtener()));
         panelSuperior.add(panelUsuaris, BorderLayout.EAST);
+        JPanel panelXat = new JPanel();
+        panelSuperior.add(panelXat, BorderLayout.CENTER);
         panelUsuaris.setLayout(new BoxLayout(panelUsuaris, BoxLayout.Y_AXIS));
 
         JPanel panelInputs = new JPanel();
@@ -86,8 +84,6 @@ public class MyChat extends JFrame {
             }
         });
 
-        panelInputs.add(txtInput);
-
         JButton botoEnvia = new JButton("Envia");
         botoEnvia.addActionListener(new ActionListener() {
             @Override
@@ -101,6 +97,17 @@ public class MyChat extends JFrame {
             }
         });
         panelInputs.add(botoEnvia, BorderLayout.EAST);
+
+        txtInput.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    botoEnvia.doClick();
+                }
+            }
+        });
+
+        panelInputs.add(txtInput);
     }
 
     /**
@@ -152,24 +159,34 @@ public class MyChat extends JFrame {
      */
 
     public void mostraUsuaris(TreeSet<Usuari> usuaris) {
-        // Primero limpiamos el panel para evitar duplicados
         panelUsuaris.removeAll();
 
-        // Añadimos los usuarios actuales
-        for (Usuari text : usuaris) {
-            JLabel label = new JLabel(text.toString());
-            label.setForeground(Color.BLUE);
-            label.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-            panelUsuaris.add(label);
+        for (Usuari usuari : usuaris) {
+            JTextArea area = new JTextArea(2, 15);
+            area.setText(usuari.getNom() + "\n" + usuari.getData());
+            area.setEditable(false);
+            area.setFocusable(false);
+            area.setOpaque(false);
+            area.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
+            area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 32));
+            area.setPreferredSize(new Dimension(150, 32)); // ancho y alto fijo
+            panelUsuaris.add(area);
         }
 
-        // Actualizamos la visualización del panel
         panelUsuaris.revalidate();
         panelUsuaris.repaint();
+    }
+
+    public void mostraMissatges(ArrayList<Missatge> missatges){
+        panelUsuaris.removeAll();
+
+
     }
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
         String missatge = txtInput.getText();
         envia(missatge, con);
     }
+
+
 }

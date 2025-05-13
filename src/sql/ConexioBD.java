@@ -16,7 +16,7 @@ public class ConexioBD {
         if (conn == null) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection("jdbc:mysql://192.168.104.10:3306/thos_xat", "appuser", "2025@Thos");
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/thos_xat", "appuser", "2025@Thos");
             } catch (SQLException | ClassNotFoundException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
