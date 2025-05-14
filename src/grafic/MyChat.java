@@ -1,5 +1,6 @@
 package grafic;
 
+import excepcions.ChatException;
 import magatzematge.Missatge;
 import magatzematge.Usuari;
 import sql.ConexioBD;
@@ -132,7 +133,7 @@ public class MyChat extends JFrame {
                 try {
                     enviaMissatge(conexio);
                     txtInput.setText(INPUTTEXT);
-                } catch (SQLException | ClassNotFoundException ex) {
+                } catch (SQLException | ClassNotFoundException | ChatException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -239,7 +240,8 @@ public class MyChat extends JFrame {
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
         String missatge = txtInput.getText();
-        envia(missatge, con);
+        if (!missatge.isEmpty()) envia(missatge, con);
+        else throw new ChatException("El missatge no pot estar buit");
     }
 
 
