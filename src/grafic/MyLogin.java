@@ -1,6 +1,7 @@
 package grafic;
 
 import excepcions.ChatException;
+import sql.ConexioBD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -9,10 +10,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 
-import static sql.ConexioBD.obtener;
+import static sql.ConexioBD.*;
 import static sql.SQLManager.*;
 
 public class MyLogin extends JDialog {
@@ -21,11 +23,13 @@ public class MyLogin extends JDialog {
     private final JPanel contentPanel = new JPanel();
     private JTextField textField;
     private String username = "";
+    private Connection conn = new ConexioBD().obtener();
 
     /**
      * Crea la finestra
      */
-    public MyLogin() {
+
+    public MyLogin() throws SQLException, ClassNotFoundException {
         setTitle("Login");
         setBounds(100, 100, 250, 125);
         getContentPane().setLayout(new BorderLayout());
@@ -74,7 +78,8 @@ public class MyLogin extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 if (username.isEmpty()) System.exit(0);
                 setVisible(false);
-                MyChat chat = new MyChat(username);
+                MyChat chat = null;
+                chat = new MyChat(username, conn);
                 chat.setVisible(true);
             }
         });
@@ -89,9 +94,9 @@ public class MyLogin extends JDialog {
         username = textField.getText();
         boolean valid = true;
         try {
-            surt(obtener());
-            entra(username, obtener());
-        } catch (SQLException | ClassNotFoundException | ChatException ex) {
+            surt(conn);
+            entra(username, conn);
+        } catch (SQLException | ChatException ex) {
             JOptionPane.showMessageDialog(contentPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             valid = false;
         }
@@ -99,7 +104,7 @@ public class MyLogin extends JDialog {
             setVisible(false);
             MyChat chat = null;
 
-            chat = new MyChat(username);
+            chat = new MyChat(username, conn);
             chat.setVisible(true);
         }
     }
