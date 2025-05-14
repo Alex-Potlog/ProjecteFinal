@@ -1,9 +1,11 @@
 package sql;
+import usuari.LectorCredencials;
+
 import javax.swing.*;
 import java.sql.*;
 
 public class ConexioBD {
-    private static Connection conn = null;
+    private Connection conn = null;
 
     /**
      * Crea una connexió a la base de dades.
@@ -12,13 +14,23 @@ public class ConexioBD {
      * @throws ClassNotFoundException Si no es troba el driver
      */
 
-    public static Connection obtener() throws SQLException, ClassNotFoundException {
+    public Connection obtener() throws SQLException, ClassNotFoundException {
         if (conn == null) {
             try {
+                LectorCredencials lector = new LectorCredencials();
+                lector.run();
+                String user = lector.getNom();
+                String password = lector.getContrasenya();
+
+                if (user == null || password == null || user.isEmpty() || password.isEmpty()) {
+                    throw new SQLException("Credenciales inválidas");
+                }
+
                 Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/thos_xat", "appuser", "2025@Thos");
-            } catch (SQLException | ClassNotFoundException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/thos_xat", user, password);
+            } catch (Exception e) {
+                conn = null; // Importante: resetear la conexión si falla
+                throw new SQLException("Error de conexión: " + e.getMessage());
             }
         }
         return conn;
@@ -29,7 +41,7 @@ public class ConexioBD {
      * @throws SQLException Llençat des de Connexion.close
      */
 
-    public static void cerrar() throws SQLException {
+    public void cerrar() throws SQLException {
         if (conn != null) {
             conn.close();
         }
@@ -40,7 +52,7 @@ public class ConexioBD {
      * @return Retorna la conexió.
      */
 
-    public static Connection getConn() {
+    public Connection getConn() {
         return conn;
     }
 }

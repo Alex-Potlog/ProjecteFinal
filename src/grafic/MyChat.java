@@ -2,6 +2,7 @@ package grafic;
 
 import magatzematge.Missatge;
 import magatzematge.Usuari;
+import sql.ConexioBD;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -28,12 +29,25 @@ public class MyChat extends JFrame {
     private JPanel subPanelUsuaris;
     private JScrollPane panelXat;
     private JPanel subPanelXat;
+    private Connection conexio;
 
     /**
      * Crea el frame.
      */
-    public MyChat(String username){
+    public MyChat(String username, Connection conexio){
         this.username = username;
+        this.conexio = conexio;
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                try {
+                    surt(conexio);
+                } catch (Exception ex) {
+                    // Puedes mostrar un mensaje o ignorar
+                }
+                System.exit(0);
+            }
+        });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Chat");
         setBounds(100, 100, 1000, 650);
@@ -70,13 +84,35 @@ public class MyChat extends JFrame {
 
         panelUsuaris = new JScrollPane();
         panelUsuaris.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         subPanelUsuaris = new JPanel();
         subPanelUsuaris.setLayout(new BoxLayout(subPanelUsuaris, BoxLayout.Y_AXIS));
-        mostraUsuaris(getUsuaris(obtener()));
+        panelUsuaris.setViewportView(subPanelUsuaris);
+        mostraUsuaris(getUsuaris(conexio));
         panelSuperior.add(panelUsuaris, BorderLayout.EAST);
+
         panelXat = new JScrollPane();
         panelXat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        subPanelXat = new JPanel();
+        subPanelXat.setLayout(new BoxLayout(subPanelXat, BoxLayout.Y_AXIS));
+        panelXat.setViewportView(subPanelXat);
+        mostraMissatges(getMessage(conexio));
         panelSuperior.add(panelXat, BorderLayout.CENTER);
+
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    mostraMissatges(getMessage(conexio));
+                    mostraUsuaris(getUsuaris(conexio));
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        timer.start();
+
         JPanel panelInputs = new JPanel();
         contentPane.add(panelInputs, BorderLayout.SOUTH);
         panelInputs.setLayout(new BorderLayout(0, 0));
@@ -94,7 +130,7 @@ public class MyChat extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    enviaMissatge(obtener());
+                    enviaMissatge(conexio);
                     txtInput.setText(INPUTTEXT);
                 } catch (SQLException | ClassNotFoundException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -133,8 +169,8 @@ public class MyChat extends JFrame {
                 llistaUsuarisVisibles = !llistaUsuarisVisibles;
                 panelUsuaris.setVisible(llistaUsuarisVisibles);
                 try {
-                    mostraUsuaris(getUsuaris(obtener()));
-                } catch (SQLException | ClassNotFoundException ex) {
+                    mostraUsuaris(getUsuaris(conexio));
+                } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -147,8 +183,8 @@ public class MyChat extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    surt(obtener());
-                } catch (SQLException | ClassNotFoundException ex) {
+                    surt(conexio);
+                } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 System.exit(0);
@@ -183,8 +219,22 @@ public class MyChat extends JFrame {
         panelUsuaris.setViewportView(subPanelUsuaris);
     }
 
-    public void mostraMissatges(ArrayList<Missatge> missatges){
-        panelXat.removeAll();
+
+    public void mostraMissatges(ArrayList<Missatge> missatges) {
+
+        for (Missatge missatge : missatges) {
+            JTextArea area = new JTextArea(3, 30);
+            area.setText(missatge.getNick() + ":\n" + missatge.getMessage() + "\n" + missatge.getData());
+            area.setEditable(false);
+            area.setFocusable(false);
+            area.setOpaque(false);
+            area.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+            area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+            area.setPreferredSize(new Dimension(300, 50));
+            subPanelXat.add(area);
+        }
+
+        panelXat.setViewportView(subPanelXat);
     }
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
