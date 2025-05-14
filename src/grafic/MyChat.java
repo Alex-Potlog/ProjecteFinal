@@ -23,7 +23,6 @@ public class MyChat extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField txtInput;
-    private String username;
     private final String INPUTTEXT = "Entra el teu missatge...";
     private boolean llistaUsuarisVisibles = true;
     private JScrollPane panelUsuaris;
@@ -35,8 +34,7 @@ public class MyChat extends JFrame {
     /**
      * Crea el frame.
      */
-    public MyChat(String username, Connection conexio){
-        this.username = username;
+    public MyChat(Connection conexio){
         this.conexio = conexio;
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -247,7 +245,7 @@ public class MyChat extends JFrame {
         panelXat.setViewportView(subPanelXat);
     }
 
-    public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
+    public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException, ChatException{
         String missatge = txtInput.getText();
         if (!missatge.isEmpty()) envia(missatge, con);
         else throw new ChatException("El missatge no pot estar buit");

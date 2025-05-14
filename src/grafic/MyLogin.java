@@ -79,7 +79,7 @@ public class MyLogin extends JDialog {
                 if (username.isEmpty()) System.exit(0);
                 setVisible(false);
                 MyChat chat = null;
-                chat = new MyChat(username, conn);
+                chat = new MyChat(conn);
                 chat.setVisible(true);
             }
         });
@@ -104,7 +104,7 @@ public class MyLogin extends JDialog {
             setVisible(false);
             MyChat chat = null;
 
-            chat = new MyChat(username, conn);
+            chat = new MyChat(conn);
             chat.setVisible(true);
         }
     }
