@@ -1,7 +1,10 @@
 package sql;
+import org.xml.sax.SAXException;
 import usuari.LectorCredencials;
 
 import javax.swing.*;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.sql.*;
 
 public class ConexioBD {
@@ -10,11 +13,9 @@ public class ConexioBD {
     /**
      * Crea una connexió a la base de dades.
      * @return Retorna la connexió a la base de dades
-     * @throws SQLException Si alguna sentència és incorrecta
-     * @throws ClassNotFoundException Si no es troba el driver
      */
 
-    public Connection obtener() throws SQLException, ClassNotFoundException {
+    public Connection obtener() {
         if (conn == null) {
             try {
                 LectorCredencials lector = new LectorCredencials();
@@ -28,9 +29,9 @@ public class ConexioBD {
 
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/thos_xat", user, password);
-            } catch (Exception e) {
-                conn = null; // Importante: resetear la conexión si falla
-                throw new SQLException("Error de conexión: " + e.getMessage());
+            } catch (SQLException | ClassNotFoundException | ParserConfigurationException | IOException | SAXException ex) {
+                conn = null;
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         return conn;
