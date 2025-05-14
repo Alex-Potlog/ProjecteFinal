@@ -14,12 +14,21 @@ public class LectorCredencials extends DefaultHandler {
     private String nom = "";
     private String contrasenya = "";
     private String text = "";
-    private boolean enNom = false;
-    private boolean enContrasenya = false;
+
+    /**
+     * Constructor de la classe LectorCredencials
+     */
 
     public LectorCredencials() {
         super();
     }
+
+    /**
+     * Llegeix el fitxer XML de credencials i emmagatzema el nom i contrasenya.
+     * @throws ParserConfigurationException Si hi ha un error en la configuració del parser
+     * @throws SAXException                Si hi ha un error en la lectura del fitxer XML
+     * @throws IOException                 Si hi ha un error d'entrada/sortida
+     */
 
     public void run() throws ParserConfigurationException, SAXException, IOException {
         File fitxer = new File("src/usuari/credencials.xml");
@@ -31,22 +40,22 @@ public class LectorCredencials extends DefaultHandler {
         saxParser.parse(fitxer, this);
     }
 
+    /**
+     * Retorna el nom d'usuari.
+     * @return Retorna el nom d'usuari
+     */
+
     public String getNom() {
         return nom;
     }
 
+    /**
+     * Retorna la contrasenya d'usuari.
+     * @return Retorna la contrasenya d'usuari
+     */
+
     public String getContrasenya() {
         return contrasenya;
-    }
-
-    @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) {
-        if (qName.equals("user")) {
-            enNom = true;
-        } else if (qName.equals("password")) {
-            enContrasenya = true;
-        }
-        text = "";
     }
 
     @Override
