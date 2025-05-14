@@ -101,7 +101,7 @@ public class MyChat extends JFrame {
         mostraMissatges(getMessage(conexio));
         panelSuperior.add(panelXat, BorderLayout.CENTER);
 
-        Timer timer = new Timer(3000, new ActionListener() {
+        Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -209,10 +209,15 @@ public class MyChat extends JFrame {
             area.setEditable(false);
             area.setFocusable(false);
             area.setOpaque(false);
-            area.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
-            area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 37));
-            area.setPreferredSize(new Dimension(150, 37)); // ancho y alto fijo
+            area.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true));
+            area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+            area.setPreferredSize(new Dimension(150, 36));
             subPanelUsuaris.add(area);
+
+            JLabel separador = new JLabel();
+            separador.setBorder(new EmptyBorder(3,3,3,3));
+            separador.setMinimumSize(new Dimension(6, 8));
+            subPanelUsuaris.add(separador);
         }
 
         subPanelUsuaris.revalidate();
@@ -231,8 +236,12 @@ public class MyChat extends JFrame {
             area.setOpaque(false);
             area.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
             area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
-            area.setPreferredSize(new Dimension(300, 50));
+            area.setPreferredSize(new Dimension(300, 45));
             subPanelXat.add(area);
+            JLabel separador = new JLabel();
+            separador.setBorder(new EmptyBorder(3,3,3,3));
+            separador.setMinimumSize(new Dimension(6, 8));
+            subPanelXat.add(separador);
         }
 
         panelXat.setViewportView(subPanelXat);
