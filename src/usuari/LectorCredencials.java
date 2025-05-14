@@ -59,9 +59,26 @@ public class LectorCredencials extends DefaultHandler {
     }
 
     @Override
+    public void startElement(String uri, String localName, String qName, Attributes attributes) { }
+
+    /**
+     * Maneja el contingut d'un element XML.
+     * @param ch     Caràcters de l'element
+     * @param start  Posició inicial dels caràcters
+     * @param length Longitud dels caràcters
+     */
+
+    @Override
     public void characters(char[] ch, int start, int length) {
         text = new String(ch, start, length).trim();
     }
+
+    /**
+     * Maneja el final d'un element XML.
+     * @param uri       URI de l'element
+     * @param localName Nom local de l'element
+     * @param qName     Nom complet de l'element
+     */
 
     @Override
     public void endElement(String uri, String localName, String qName) {
