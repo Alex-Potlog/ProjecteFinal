@@ -18,7 +18,7 @@ import java.util.TreeSet;
 import static sql.ConexioBD.*;
 import static sql.SQLManager.*;
 
-public class MyLogin extends JDialog {
+public class MyLogin extends JDialog implements Mostra{
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPanel;
@@ -172,6 +172,7 @@ public class MyLogin extends JDialog {
         }
     }
 
+    @Override
     public void mostraUsuaris(TreeSet<Usuari> usuaris){
         panelUsuaris.removeAll();
 

@@ -18,7 +18,7 @@ import java.util.TreeSet;
 import static sql.ConexioBD.*;
 import static sql.SQLManager.*;
 
-public class MyChat extends JFrame {
+public class MyChat extends JFrame implements Mostra{
 
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -197,6 +197,7 @@ public class MyChat extends JFrame {
      * Mostra els usuaris al panell d'usuaris loguejats
      */
 
+    @Override
     public void mostraUsuaris(TreeSet<Usuari> usuaris) {
         subPanelUsuaris.removeAll();
 
