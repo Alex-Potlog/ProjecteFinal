@@ -1,6 +1,6 @@
 package excepcions;
 
-public class ChatException extends RuntimeException {
+public class ChatException extends Exception {
     private static final long serialVersionUID = 1L;
     private String codi;
 
