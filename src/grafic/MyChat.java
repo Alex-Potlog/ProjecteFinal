@@ -29,19 +29,19 @@ public class MyChat extends JFrame implements Mostra{
     private JPanel subPanelUsuaris;
     private JScrollPane panelXat;
     private JPanel subPanelXat;
-    private Connection conexio;
+    private final Connection CONEXIO;
 
     /**
      * Crea el frame.
      */
-    public MyChat(Connection conexio){
-        this.conexio = conexio;
-        addWindowListener(new java.awt.event.WindowAdapter() {
+    public MyChat(Connection CONEXIO){
+        this.CONEXIO = CONEXIO;
+        addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
                 try {
-                    surt(conexio);
-                    new ConexioBD(conexio).cerrar();
+                    surt(CONEXIO);
+                    new ConexioBD(CONEXIO).cerrar();
                 } catch (Exception _) { }
                 System.exit(0);
             }
@@ -86,7 +86,7 @@ public class MyChat extends JFrame implements Mostra{
         subPanelUsuaris = new JPanel();
         subPanelUsuaris.setLayout(new BoxLayout(subPanelUsuaris, BoxLayout.Y_AXIS));
         panelUsuaris.setViewportView(subPanelUsuaris);
-        mostraUsuaris(getUsuaris(conexio));
+        mostraUsuaris(getUsuaris(CONEXIO));
         panelSuperior.add(panelUsuaris, BorderLayout.EAST);
 
         panelXat = new JScrollPane();
@@ -95,15 +95,15 @@ public class MyChat extends JFrame implements Mostra{
         subPanelXat = new JPanel();
         subPanelXat.setLayout(new BoxLayout(subPanelXat, BoxLayout.Y_AXIS));
         panelXat.setViewportView(subPanelXat);
-        mostraMissatges(getMessage(conexio));
+        mostraMissatges(getMessage(CONEXIO));
         panelSuperior.add(panelXat, BorderLayout.CENTER);
 
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    mostraMissatges(getMessage(conexio));
-                    mostraUsuaris(getUsuaris(conexio));
+                    mostraMissatges(getMessage(CONEXIO));
+                    mostraUsuaris(getUsuaris(CONEXIO));
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -128,7 +128,7 @@ public class MyChat extends JFrame implements Mostra{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    enviaMissatge(conexio);
+                    enviaMissatge(CONEXIO);
                     txtInput.setText(INPUTTEXT);
                 } catch (SQLException | ClassNotFoundException | ChatException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -167,7 +167,7 @@ public class MyChat extends JFrame implements Mostra{
                 llistaUsuarisVisibles = !llistaUsuarisVisibles;
                 panelUsuaris.setVisible(llistaUsuarisVisibles);
                 try {
-                    mostraUsuaris(getUsuaris(conexio));
+                    mostraUsuaris(getUsuaris(CONEXIO));
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -181,7 +181,7 @@ public class MyChat extends JFrame implements Mostra{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    surt(conexio);
+                    surt(CONEXIO);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
