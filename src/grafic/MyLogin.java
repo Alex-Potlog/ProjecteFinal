@@ -21,7 +21,7 @@ import static sql.SQLManager.*;
 public class MyLogin extends JDialog {
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPanel = new JPanel();
+    private JPanel contentPanel;
     private JTextField textField;
     private String username = "";
     private Connection conn;
@@ -43,6 +43,7 @@ public class MyLogin extends JDialog {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 try {
                     surt(conn);
+                    new ConexioBD(conn).cerrar();
                 } catch (Exception _) { }
                 System.exit(0);
             }

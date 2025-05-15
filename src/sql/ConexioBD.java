@@ -10,8 +10,15 @@ import java.sql.*;
 public class ConexioBD {
     private Connection conn = null;
 
+    public ConexioBD(Connection conn){
+        this.conn = conn;
+    }
+
+    public ConexioBD() {
+    }
+
     /**
-     * Crea una connexió a la base de dades.
+     * Crea una connexió a la base de dades o l'agafa.
      * @return Retorna la connexió a la base de dades
      */
 

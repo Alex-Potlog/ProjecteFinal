@@ -74,7 +74,6 @@ public abstract class SQLManager {
         return llistaUsuaris;
     }
 
-
     /**
      * Retorna els missatges enviats per xat.
      * @param con rep la connexió a la base de dades

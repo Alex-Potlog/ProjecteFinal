@@ -41,6 +41,7 @@ public class MyChat extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 try {
                     surt(conexio);
+                    new ConexioBD(conexio).cerrar();
                 } catch (Exception _) { }
                 System.exit(0);
             }
@@ -221,8 +222,6 @@ public class MyChat extends JFrame {
         panelUsuaris.setViewportView(subPanelUsuaris);
     }
 
-<<<<<<< Updated upstream
-
     public void mostraMissatges(ArrayList<Missatge> missatges) {
 
         for (Missatge missatge : missatges) {
@@ -236,25 +235,19 @@ public class MyChat extends JFrame {
             area.setPreferredSize(new Dimension(300, 45));
             subPanelXat.add(area);
             JLabel separador = new JLabel();
-            separador.setBorder(new EmptyBorder(3,3,3,3));
+            separador.setBorder(new EmptyBorder(3, 3, 3, 3));
             separador.setMinimumSize(new Dimension(6, 8));
             subPanelXat.add(separador);
         }
 
         panelXat.setViewportView(subPanelXat);
-=======
+    }
     /**
      * Envia el missatge passat per parametre al xat
      * @param con coneció a la base de dades
      * @throws SQLException llençat desde SQLManager
      * @throws ClassNotFoundException llençat desde SQLManager
      */
-
-    public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
-        String missatge = txtInput.getText();
-        envia(missatge, con);
->>>>>>> Stashed changes
-    }
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException, ChatException{
         String missatge = txtInput.getText();
