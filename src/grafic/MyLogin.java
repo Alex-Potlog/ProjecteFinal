@@ -1,10 +1,10 @@
 package grafic;
 
 import excepcions.ChatException;
+import magatzematge.Usuari;
 import sql.ConexioBD;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.TreeSet;
 
 
 import static sql.ConexioBD.*;
@@ -20,24 +21,44 @@ import static sql.SQLManager.*;
 public class MyLogin extends JDialog {
 
     private static final long serialVersionUID = 1L;
-    private final JPanel contentPanel = new JPanel();
+    private JPanel contentPanel = new JPanel();
     private JTextField textField;
     private String username = "";
-    private Connection conn = new ConexioBD().obtener();
+    private Connection conn;
+    private JPanel panelUsuaris;
 
     /**
      * Crea la finestra
      */
 
-    public MyLogin() throws SQLException, ClassNotFoundException {
+    public MyLogin() {
         setTitle("Login");
-        setBounds(100, 100, 250, 125);
+        setBounds(100, 100, 250, 150);
         getContentPane().setLayout(new BorderLayout());
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
         contentPanel.setLayout(new BorderLayout(0, 0));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                try {
+                    surt(conn);
+                } catch (Exception _) { }
+                System.exit(0);
+            }
+        });
+        inicialitza();
+    }
+
+    /**
+     * Inicialitza la finestra del login.
+     */
+
+    public void inicialitza(){
+        conn = new ConexioBD().obtener();
         creacioInput();
         creacioBotons();
+        creacioMenu();
     }
 
     /**
@@ -86,6 +107,47 @@ public class MyLogin extends JDialog {
         buttonPane.add(cancelButton);
     }
 
+    public void creacioMenu(){
+        JMenuBar barraMenu = new JMenuBar();
+        this.setJMenuBar(barraMenu);
+        JMenu menu = new JMenu("Menu");
+        barraMenu.add(menu);
+        JMenuItem menuItem = new JMenuItem("Mostra els usuaris connectats");
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JDialog dialogUsuaris = new JDialog();
+                dialogUsuaris.setTitle("Usuaris connectats");
+                dialogUsuaris.setBounds(100, 100, 250, 125);
+                dialogUsuaris.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialogUsuaris.setVisible(true);
+                JScrollPane scrollPane = new JScrollPane();
+                dialogUsuaris.getContentPane().add(scrollPane, BorderLayout.CENTER);
+                scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+                panelUsuaris = new JPanel();
+                panelUsuaris.setLayout(new BoxLayout(panelUsuaris, BoxLayout.Y_AXIS));
+                try {
+                    mostraUsuaris(getUsuaris(conn));
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                dialogUsuaris.getContentPane().add(panelUsuaris);
+            }
+        });
+        menu.add(menuItem);
+        JMenuItem menuItem2 = new JMenuItem("Sortir");
+        menuItem2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    conn.close();
+                    System.exit(0);
+                } catch (SQLException _) { }
+            }
+        });
+        menu.add(menuItem2);
+    }
+
     /**
      * Comprava si l'input del username és possible.
      */
@@ -106,6 +168,35 @@ public class MyLogin extends JDialog {
 
             chat = new MyChat(conn);
             chat.setVisible(true);
+        }
+    }
+
+    public void mostraUsuaris(TreeSet<Usuari> usuaris){
+        panelUsuaris.removeAll();
+
+        for (Usuari usuari : usuaris) {
+            JTextArea area = new JTextArea(2, 15);
+            area.setText(usuari.getNom() + "\n" + usuari.getData());
+            area.setEditable(false);
+            area.setFocusable(false);
+            area.setOpaque(false);
+            area.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, true));
+            area.setMaximumSize(new Dimension(Integer.MAX_VALUE, 36));
+            area.setPreferredSize(new Dimension(150, 36));
+            panelUsuaris.add(area);
+
+            JLabel separador = new JLabel();
+            separador.setBorder(new EmptyBorder(3,3,3,3));
+            separador.setMinimumSize(new Dimension(6, 8));
+            panelUsuaris.add(separador);
+        }
+
+        panelUsuaris.revalidate();
+        panelUsuaris.repaint();
+        if (usuaris.isEmpty()) {
+            JLabel label = new JLabel("No hi ha usuaris connectats");
+            label.setBorder(new EmptyBorder(3,3,3,3));
+            panelUsuaris.add(label);
         }
     }
 }

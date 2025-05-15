@@ -41,9 +41,7 @@ public class MyChat extends JFrame {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 try {
                     surt(conexio);
-                } catch (Exception ex) {
-                    // Puedes mostrar un mensaje o ignorar
-                }
+                } catch (Exception _) { }
                 System.exit(0);
             }
         });
