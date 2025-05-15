@@ -10,12 +10,18 @@ import java.sql.*;
 public class ConexioBD {
     private Connection conn = null;
 
-    public ConexioBD(Connection conn){
-        this.conn = conn;
-    }
+    /**
+     * Constructor per si ja tens una connexió especifica
+     * @param conn la conexió especifica
+     */
 
-    public ConexioBD() {
-    }
+    public ConexioBD(Connection conn){ this.conn = conn; }
+
+    /**
+     * Constructor default per certs casos
+     */
+
+    public ConexioBD() { }
 
     /**
      * Crea una connexió a la base de dades o l'agafa.
