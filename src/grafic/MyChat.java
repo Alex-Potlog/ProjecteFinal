@@ -223,6 +223,7 @@ public class MyChat extends JFrame implements Mostra{
         panelUsuaris.setViewportView(subPanelUsuaris);
     }
 
+
     public void mostraMissatges(ArrayList<Missatge> missatges) {
 
         for (Missatge missatge : missatges) {
@@ -252,9 +253,15 @@ public class MyChat extends JFrame implements Mostra{
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException, ChatException{
         String missatge = txtInput.getText();
-        if (!missatge.isEmpty()) envia(missatge, con);
+        if (comprovaInput(missatge)) envia(missatge, con);
         else throw new ChatException("El missatge no pot estar buit");
     }
 
+
+    @Override
+    public boolean comprovaInput(String missatge) {
+        if (missatge == null || missatge.isEmpty()) return false;
+        return true;
+    }
 
 }
