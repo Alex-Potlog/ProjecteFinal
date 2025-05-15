@@ -221,6 +221,7 @@ public class MyChat extends JFrame {
         panelUsuaris.setViewportView(subPanelUsuaris);
     }
 
+<<<<<<< Updated upstream
 
     public void mostraMissatges(ArrayList<Missatge> missatges) {
 
@@ -241,6 +242,18 @@ public class MyChat extends JFrame {
         }
 
         panelXat.setViewportView(subPanelXat);
+=======
+    /**
+     * Envia el missatge passat per parametre al xat
+     * @param con coneció a la base de dades
+     * @throws SQLException llençat desde SQLManager
+     * @throws ClassNotFoundException llençat desde SQLManager
+     */
+
+    public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException{
+        String missatge = txtInput.getText();
+        envia(missatge, con);
+>>>>>>> Stashed changes
     }
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException, ChatException{
