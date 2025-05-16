@@ -18,6 +18,11 @@ import java.util.TreeSet;
 import static sql.ConexioBD.*;
 import static sql.SQLManager.*;
 
+/**
+ * Classe que crea la finestra del login i la maneja
+ * @author Alex Potlog
+ */
+
 public class MyLogin extends JDialog implements Mostra{
 
     private static final long serialVersionUID = 1L;
@@ -111,6 +116,10 @@ public class MyLogin extends JDialog implements Mostra{
         buttonPane.add(cancelButton);
     }
 
+    /**
+     * Crea i maneja l'apartat del menu.
+     */
+
     public void creacioMenu(){
         JMenuBar barraMenu = new JMenuBar();
         this.setJMenuBar(barraMenu);
@@ -173,6 +182,11 @@ public class MyLogin extends JDialog implements Mostra{
 
         return true;
     }
+
+    /**
+     * Mostra els usuaris al panell del xat.
+     * @param usuaris usuaris a mostrar
+     */
 
     @Override
     public void mostraUsuaris(TreeSet<Usuari> usuaris){

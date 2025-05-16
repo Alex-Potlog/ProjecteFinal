@@ -18,6 +18,11 @@ import java.util.TreeSet;
 import static sql.ConexioBD.*;
 import static sql.SQLManager.*;
 
+/**
+ * Classe que crea la finestra del xat i la maneja
+ * @author Alex Potlog
+ */
+
 public class MyChat extends JFrame implements Mostra{
 
     private static final long serialVersionUID = 1L;
@@ -223,6 +228,10 @@ public class MyChat extends JFrame implements Mostra{
         panelUsuaris.setViewportView(subPanelUsuaris);
     }
 
+    /**
+     * Mostra els missatges al panell de missatges
+     * @param missatges llista de missatges a mostrar
+     */
 
     public void mostraMissatges(ArrayList<Missatge> missatges) {
 

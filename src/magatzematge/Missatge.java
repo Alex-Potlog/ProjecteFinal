@@ -1,5 +1,10 @@
 package magatzematge;
 
+/**
+ * Magatzema la informació d'un missatge.
+ * @author Alex Potlog
+ */
+
 public class Missatge {
     private String message;
     private String nick;
