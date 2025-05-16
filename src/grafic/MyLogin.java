@@ -23,7 +23,6 @@ public class MyLogin extends JDialog implements Mostra{
     private static final long serialVersionUID = 1L;
     private JPanel contentPanel = new JPanel();
     private JTextField textField;
-    private String username = "";
     private Connection conn;
     private JPanel panelUsuaris;
 
@@ -56,7 +55,6 @@ public class MyLogin extends JDialog implements Mostra{
      */
 
     public void inicialitza(){
-        JOptionPane.showMessageDialog(null, "Pasa a init");
         conn = new ConexioBD().obtener();
         creacioInput();
         creacioBotons();
@@ -89,7 +87,7 @@ public class MyLogin extends JDialog implements Mostra{
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    comprovaInput(username);
+                    comprovaInput(textField.getText());
                 } catch (SQLException | ChatException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
@@ -104,11 +102,10 @@ public class MyLogin extends JDialog implements Mostra{
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (username.isEmpty()) System.exit(0);
-                setVisible(false);
-                MyChat chat = null;
-                chat = new MyChat(conn);
-                chat.setVisible(true);
+                try {
+                    surt(conn);
+                } catch (SQLException _) { }
+                System.exit(0);
             }
         });
         buttonPane.add(cancelButton);
@@ -148,15 +145,19 @@ public class MyLogin extends JDialog implements Mostra{
             public void actionPerformed(ActionEvent e) {
                 try {
                     conn.close();
-                    System.exit(0);
                 } catch (SQLException _) { }
+                System.exit(0);
             }
         });
         menu.add(menuItem2);
     }
 
     /**
-     * Comprava si l'input del username és possible.
+     *
+     * @param username Missatge a comprovar
+     * @return ignorat
+     * @throws SQLException llençat desde SQLManager
+     * @throws ChatException si el nom d'usuari es troba buit
      */
 
     @Override

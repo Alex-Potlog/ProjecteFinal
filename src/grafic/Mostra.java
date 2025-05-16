@@ -15,9 +15,11 @@ public interface Mostra {
     void mostraUsuaris(TreeSet<Usuari> usuaris);
 
     /**
-     * Comprova si el escrit per input és correcte
-     * @param missatge
-     * @return
+     * Comprova l'input realitzat
+     * @param missatge Missatge a comprovar
+     * @return si és correcte o no
+     * @throws SQLException llençat desde SQLManager
+     * @throws ChatException si els inputs es troben buits
      */
 
     boolean comprovaInput(String missatge) throws SQLException, ChatException;

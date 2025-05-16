@@ -258,6 +258,7 @@ public class MyChat extends JFrame implements Mostra{
     }
 
 
+
     @Override
     public boolean comprovaInput(String missatge) {
         if (missatge == null || missatge.isEmpty()) return false;
