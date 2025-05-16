@@ -19,7 +19,7 @@ public abstract class SQLManager {
      */
 
     public static void entra (String username, Connection con) throws SQLException, ChatException {
-        if (username.isEmpty()) throw new ChatException("El nom es troba buit");
+        if (username.isEmpty()) throw new ChatException("El nom es troba buit", "1001");
         String conectaUsuari = "CALL connect('" + username + "');";
         Statement registrar = con.createStatement();
         registrar.execute(conectaUsuari);

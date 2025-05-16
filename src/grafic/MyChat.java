@@ -41,7 +41,7 @@ public class MyChat extends JFrame implements Mostra{
             public void windowClosing(WindowEvent e) {
                 try {
                     surt(CONEXIO);
-                    new ConexioBD(CONEXIO).cerrar();
+                    new ConexioBD(CONEXIO).tancar();
                 } catch (Exception _) { }
                 System.exit(0);
             }
@@ -254,7 +254,7 @@ public class MyChat extends JFrame implements Mostra{
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException, ChatException{
         String missatge = txtInput.getText();
         if (comprovaInput(missatge)) envia(missatge, con);
-        else throw new ChatException("El missatge no pot estar buit");
+        else throw new ChatException("El missatge no pot estar buit", "1002");
     }
 
 

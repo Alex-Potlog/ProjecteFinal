@@ -55,7 +55,7 @@ public class ConexioBD {
      * @throws SQLException Llençat des de Connexion.close
      */
 
-    public void cerrar() throws SQLException {
+    public void tancar() throws SQLException {
         if (conn != null) {
             conn.close();
         }

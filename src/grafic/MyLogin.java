@@ -21,7 +21,7 @@ import static sql.SQLManager.*;
 public class MyLogin extends JDialog implements Mostra{
 
     private static final long serialVersionUID = 1L;
-    private JPanel contentPanel;
+    private JPanel contentPanel = new JPanel();
     private JTextField textField;
     private String username = "";
     private Connection conn;
@@ -43,7 +43,7 @@ public class MyLogin extends JDialog implements Mostra{
             public void windowClosing(java.awt.event.WindowEvent e) {
                 try {
                     surt(conn);
-                    new ConexioBD(conn).cerrar();
+                    new ConexioBD(conn).tancar();
                 } catch (Exception _) { }
                 System.exit(0);
             }
@@ -56,6 +56,7 @@ public class MyLogin extends JDialog implements Mostra{
      */
 
     public void inicialitza(){
+        JOptionPane.showMessageDialog(null, "Pasa a init");
         conn = new ConexioBD().obtener();
         creacioInput();
         creacioBotons();
@@ -87,7 +88,12 @@ public class MyLogin extends JDialog implements Mostra{
         JButton okButton = new JButton("OK");
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                comprovaInput();
+                try {
+                    comprovaInput(username);
+                } catch (SQLException | ChatException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+                }
             }
         });
 
@@ -153,23 +159,18 @@ public class MyLogin extends JDialog implements Mostra{
      * Comprava si l'input del username és possible.
      */
 
-    public void comprovaInput(){
-        username = textField.getText();
-        boolean valid = true;
-        try {
-            surt(conn);
-            entra(username, conn);
-        } catch (SQLException | ChatException ex) {
-            JOptionPane.showMessageDialog(contentPanel, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            valid = false;
-        }
-        if (valid) {
-            setVisible(false);
-            MyChat chat = null;
+    @Override
+    public boolean comprovaInput(String username) throws SQLException, ChatException {
+        surt(conn);
+        entra(username, conn);
 
-            chat = new MyChat(conn);
-            chat.setVisible(true);
-        }
+        setVisible(false);
+        MyChat chat = null;
+
+        chat = new MyChat(conn);
+        chat.setVisible(true);
+
+        return true;
     }
 
     @Override
