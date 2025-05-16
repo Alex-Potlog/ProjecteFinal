@@ -8,14 +8,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+/**
+ * Classe que maneja les sentencies SQL i la connexió a la base de dades.
+ * @author Alex Potlog
+ */
+
 public abstract class SQLManager {
 
     /**
      * Fa el login dels usuaris a la base de dades.
-     * @param username nom del usuari que entra
-     * @param con la conexió a la base de dades
-     * @throws SQLException si alguna sentència és incorrecta
-     * @throws ChatException si el nom d'usuari es troba buit
+     * @param username Nom del usuari que entra
+     * @param con La conexió a la base de dades
+     * @throws SQLException Si alguna sentència és incorrecta
+     * @throws ChatException Si el nom d'usuari es troba buit
      */
 
     public static void entra (String username, Connection con) throws SQLException, ChatException {
@@ -27,8 +32,8 @@ public abstract class SQLManager {
 
     /**
      * Remou l'usuari de la base de dades.
-     * @param con la conexió a la base de dades
-     * @throws SQLException si alguna sentència és incorrecta
+     * @param con La conexió a la base de dades
+     * @throws SQLException Si alguna sentència és incorrecta
      */
 
     public static void surt (Connection con) throws SQLException {
@@ -39,9 +44,9 @@ public abstract class SQLManager {
 
     /**
      * Envia un missatge pel xat.
-     * @param missatge missatge a enviar
-     * @param con conexió a la base de dades
-     * @throws SQLException si alguna sentència és incorrecta
+     * @param missatge Missatge a enviar
+     * @param con Conexió a la base de dades
+     * @throws SQLException Si alguna sentència és incorrecta
      */
 
     public static void envia (String missatge, Connection con) throws SQLException {
@@ -52,9 +57,9 @@ public abstract class SQLManager {
 
     /**
      * Retorna la llista d'usuaris.
-     * @param con conexió a la base de dades
-     * @return retorna un hashset d'usuaris
-     * @throws SQLException si alguna sentència és incorrecta
+     * @param con Conexió a la base de dades
+     * @return Retorna un hashset d'usuaris
+     * @throws SQLException Si alguna sentència és incorrecta
      */
 
     public static TreeSet<Usuari> getUsuaris(Connection con) throws SQLException {
@@ -76,9 +81,9 @@ public abstract class SQLManager {
 
     /**
      * Retorna els missatges enviats per xat.
-     * @param con rep la connexió a la base de dades
-     * @return llista de missatges
-     * @throws SQLException si es fa una query malament
+     * @param con Rep la connexió a la base de dades
+     * @return Llista de missatges
+     * @throws SQLException Si es fa una query malament
      */
 
     public static ArrayList<Missatge> getMessage(Connection con) throws SQLException {

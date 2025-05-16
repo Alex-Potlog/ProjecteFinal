@@ -7,6 +7,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.sql.*;
 
+/**
+ * Classe que maneja la connexió a la base de dades
+ * @author Alex Potlog
+ */
+
 public class ConexioBD {
     private Connection conn = null;
 

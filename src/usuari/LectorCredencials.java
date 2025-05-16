@@ -10,6 +10,11 @@ import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Classe que llegeix les credencials d'un fitxer XML.
+ * @author Alex Potlog
+ */
+
 public class LectorCredencials extends DefaultHandler {
     private String nom = "";
     private String contrasenya = "";

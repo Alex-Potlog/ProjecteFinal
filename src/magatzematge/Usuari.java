@@ -1,5 +1,10 @@
 package magatzematge;
 
+/**
+ * Magatzema la informació d'un usuari.
+ * @author Alex Potlog
+ */
+
 public class Usuari implements Comparable {
     private String nom;
     private String data;
