@@ -255,9 +255,10 @@ public class MyChat extends JFrame implements Mostra{
     }
     /**
      * Envia el missatge passat per parametre al xat
-     * @param con coneció a la base de dades
-     * @throws SQLException llençat desde SQLManager
-     * @throws ClassNotFoundException llençat desde SQLManager
+     * @param con Coneció a la base de dades
+     * @throws SQLException Llençat desde SQLManager
+     * @throws ClassNotFoundException Llençat desde SQLManager
+     * @throws ChatException Si el missatge es troba buit
      */
 
     public void enviaMissatge(Connection con) throws SQLException, ClassNotFoundException, ChatException{
@@ -266,7 +267,11 @@ public class MyChat extends JFrame implements Mostra{
         else throw new ChatException("El missatge no pot estar buit", "1002");
     }
 
-
+    /**
+     * Comprova si el missatge es troba buit o no
+     * @param missatge Missatge a comprovar
+     * @return Si el missatge es troba buit o no
+     */
 
     @Override
     public boolean comprovaInput(String missatge) {
