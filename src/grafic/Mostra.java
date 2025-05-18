@@ -23,7 +23,7 @@ public interface Mostra {
      * Comprova l'input realitzat
      * @param missatge Missatge a comprovar
      * @return Si és correcte o no
-     * @throws SQLException Llençat desde SQLManager
+     * @throws SQLException Llençat des de SQLManager
      * @throws ChatException Si els inputs es troben buits
      */
 

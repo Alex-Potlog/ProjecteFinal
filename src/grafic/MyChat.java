@@ -41,6 +41,8 @@ public class MyChat extends JFrame implements Mostra{
      */
     public MyChat(Connection CONEXIO){
         this.CONEXIO = CONEXIO;
+
+        // afegeixo que quan tanqui la finestra es tanqui la connexió
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -96,6 +98,7 @@ public class MyChat extends JFrame implements Mostra{
 
         panelXat = new JScrollPane();
         panelXat.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        panelXat.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         subPanelXat = new JPanel();
         subPanelXat.setLayout(new BoxLayout(subPanelXat, BoxLayout.Y_AXIS));
@@ -103,6 +106,7 @@ public class MyChat extends JFrame implements Mostra{
         mostraMissatges(getMessage(CONEXIO));
         panelSuperior.add(panelXat, BorderLayout.CENTER);
 
+        // Timer per actualitzar els missatges i usuaris cada segon
         Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,6 +125,8 @@ public class MyChat extends JFrame implements Mostra{
         panelInputs.setLayout(new BorderLayout(0, 0));
 
         txtInput = new JTextField("Entra el teu missatge...");
+
+        // afegeixo un focus listener per que el text esborri el text d'entrada
         txtInput.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -134,6 +140,7 @@ public class MyChat extends JFrame implements Mostra{
             public void actionPerformed(ActionEvent e) {
                 try {
                     enviaMissatge(CONEXIO);
+                    // retorno el text d'entrada al seu valor original
                     txtInput.setText(INPUTTEXT);
                 } catch (SQLException | ClassNotFoundException | ChatException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -142,6 +149,7 @@ public class MyChat extends JFrame implements Mostra{
         });
         panelInputs.add(botoEnvia, BorderLayout.EAST);
 
+        // afegeixo un key listener per que el botó d'enviar es pugui activar amb la tecla enter
         txtInput.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -165,10 +173,11 @@ public class MyChat extends JFrame implements Mostra{
         JMenu mnMenu = new JMenu("Menu");
         menuBar.add(mnMenu);
 
-        JMenuItem usuarisVisibles = new JMenuItem("Activa/desactiva vista d'usuaris");
+        JMenuItem usuarisVisibles = new JMenuItem("Desactiva la vista d'usuaris (Alt + F)");
         usuarisVisibles.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Si la llista d'usuaris es visible, la desactivem i viceversa
                 llistaUsuarisVisibles = !llistaUsuarisVisibles;
                 panelUsuaris.setVisible(llistaUsuarisVisibles);
                 try {
@@ -176,10 +185,28 @@ public class MyChat extends JFrame implements Mostra{
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
+
+                if (llistaUsuarisVisibles) {
+                    usuarisVisibles.setText("Desactiva la vista d'usuaris (Alt + F)");
+                } else {
+                    usuarisVisibles.setText("Activa la vista d'usuaris (Alt + F)");
+                }
+
+
             }
         });
-        usuarisVisibles.setMnemonic('A');
+        usuarisVisibles.setMnemonic('F');
         mnMenu.add(usuarisVisibles);
+
+        JMenuItem about = new JMenuItem("About");
+        about.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Xat creat pel millor rumanès, el més llest, guapo i definitivament humil de la promoció 2024/25 de DAW1", "About", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        about.setMnemonic('A');
+        mnMenu.add(about);
 
         JMenuItem sortir = new JMenuItem("Sortir");
         sortir.addActionListener(new ActionListener() {
@@ -238,6 +265,8 @@ public class MyChat extends JFrame implements Mostra{
         for (Missatge missatge : missatges) {
             JTextArea area = new JTextArea(3, 30);
             area.setText(missatge.getNick() + ":\n" + missatge.getMessage() + "\n" + missatge.getData());
+            area.setLineWrap(true);
+            area.setWrapStyleWord(true);
             area.setEditable(false);
             area.setFocusable(false);
             area.setOpaque(false);
