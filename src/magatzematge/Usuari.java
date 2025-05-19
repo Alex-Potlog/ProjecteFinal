@@ -33,6 +33,4 @@ public class Usuari implements Comparable {
     public String getData() {
         return data;
     }
-
-
 }

@@ -6,6 +6,7 @@ import magatzematge.Usuari;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.TreeSet;
 
 /**
@@ -63,7 +64,12 @@ public abstract class SQLManager {
      */
 
     public static TreeSet<Usuari> getUsuaris(Connection con) throws SQLException {
-        TreeSet<Usuari> llistaUsuaris = new TreeSet<>();
+        TreeSet<Usuari> llistaUsuaris = new TreeSet<>(new Comparator<Usuari>() {
+            @Override
+            public int compare(Usuari o1, Usuari o2) {
+                return o1.compareTo(o2);
+            }
+        });
         String missatgePrompt = "CALL getConnectedUsers();";
         Statement registrar = con.createStatement();
         registrar.execute(missatgePrompt);
